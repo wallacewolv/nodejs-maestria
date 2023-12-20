@@ -18,6 +18,8 @@ function operation() {
         'Consultar saldo',
         'Depositar',
         'Sacar',
+        'Tranferir',
+        'Empréstimo',
         'Sair',
       ],
     },
@@ -30,8 +32,10 @@ function operation() {
       } else if (action === 'Consultar saldo') {
         getAccountBalance();
       } else if (action === 'Depositar') {
+        // Implementar cheque especial
         deposit();
       } else if (action === 'Sacar') {
+        // Implementar cheque especial
         withdraw();
       } else if (action === 'Sair') {
         exit();
@@ -208,12 +212,38 @@ function withdraw() {
         .then((answerAmount) => {
           const amount = answerAmount['amount'];
 
-          console.log(amount);
-          operation();
+          removeAmmount(accountName, amount);
         })
         .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
+}
+
+function removeAmmount(accountName, amount) {
+  const accountData = getAccount(accountName);
+
+  if (!amount) {
+    console.log(chalk.bgRedBright.black.bold('Ocorreu um erro, tente novamente mais tarde!'));
+    return withdraw();
+  }
+
+  if (accountData.balance < amount) {
+    console.log(chalk.bgRedBright.black.bold('Valor indisponível!'));
+    return withdraw();
+  }
+
+  accountData.balance = parseFloat(accountData.balance) - parseFloat(amount);
+
+  fs.writeFileSync(
+    `accounts/${accountName}.json`,
+    JSON.stringify(accountData),
+    function (err) {
+      console.log(err);
+    }
+  )
+
+  console.log(chalk.green(`Foi realizado um saque de R$${amount} da sua conta!`));
+  operation();
 }
 
 function exit() {
