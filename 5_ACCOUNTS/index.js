@@ -28,6 +28,7 @@ function operation() {
       if (action === 'Criar conta') {
         createAccout();
       } else if (action === 'Consultar saldo') {
+        getAccountBalance();
       } else if (action === 'Depositar') {
         deposit();
       } else if (action === 'Sacar') {
@@ -58,7 +59,7 @@ function buildAccount() {
       const accountName = answer['accountName'];
 
       if (accountName.length < 3) {
-        console.log(chalk.bgRed.black('A conta deve conter no minimo 3 caracteres'));
+        console.log(chalk.bgRedBright.black.bold('A conta deve conter no minimo 3 caracteres'));
         return buildAccount();
       }
 
@@ -67,9 +68,7 @@ function buildAccount() {
       }
 
       if (fs.existsSync(`accounts/${accountName}.json`)) {
-        console.log(
-          chalk.bgRed.black('Esta conta já existe, escolha outro nome!'),
-        );
+        console.log(chalk.bgRedBright.black.bold('Esta conta já existe, escolha outro nome!'));
         buildAccount();
         return;
       }
@@ -124,7 +123,7 @@ function deposit() {
 
 function checkAccount(accountName) {
   if (!fs.existsSync(`accounts/${accountName}.json`)) {
-    console.log(chalk.bgRed.black('Esta conta não existe, escolha outro nome!'));
+    console.log(chalk.bgRedBright.black.bold('Esta conta não existe, escolha outro nome!'));
     return false;
   }
 
@@ -135,7 +134,7 @@ function addAmount(accountName, amount) {
   const accountData = getAccount(accountName);
 
   if (!amount) {
-    console.log(chalk.bgRed.black.bold('Ocorreu um erro, tente novamente mais tarde!'));
+    console.log(chalk.bgRedBright.black.bold('Ocorreu um erro, tente novamente mais tarde!'));
     return deposit();
   }
 
@@ -159,5 +158,30 @@ function getAccount(accountName) {
   });
 
   return JSON.parse(accountJson);
+}
+
+// show account balance
+function getAccountBalance() {
+  inquirer.prompt([
+    {
+      name: 'accountName',
+      message: 'Qual o nome da sua conta?',
+    }
+  ])
+    .then((answer) => {
+      const accountName = answer['accountName'];
+
+      // verify if account exists
+      if (!checkAccount(accountName)) {
+        return getAccountBalance();
+      }
+
+      const accountData = getAccount(accountName);
+
+      console.log(chalk.bgBlue.black.bold(`Olá, o saldo da sua conta é R$${accountData.balance}`));
+
+      operation();
+    })
+    .catch((err) => console.log(err));
 }
 
