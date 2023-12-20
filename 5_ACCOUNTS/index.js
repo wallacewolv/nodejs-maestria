@@ -57,6 +57,11 @@ function buildAccount() {
     .then((answer) => {
       const accountName = answer['accountName'];
 
+      if (accountName.length < 3) {
+        console.log(chalk.bgRed.black('A conta deve conter no minimo 3 caracteres'));
+        return buildAccount();
+      }
+
       if (!fs.existsSync('accounts')) {
         fs.mkdirSync('accounts');
       }
@@ -99,7 +104,20 @@ function deposit() {
         return deposit();
       }
 
-      
+      inquirer.prompt([
+        {
+          name: 'amount',
+          message: 'Quanto você deseja depositar',
+        }
+      ])
+        .then((answer) => {
+          const amount = answer['amount'];
+
+          // add an amount
+          addAmount(accountName, amount);
+          operation();
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => console.lgo(err));
 }
@@ -112,3 +130,34 @@ function checkAccount(accountName) {
 
   return true;
 }
+
+function addAmount(accountName, amount) {
+  const accountData = getAccount(accountName);
+
+  if (!amount) {
+    console.log(chalk.bgRed.black.bold('Ocorreu um erro, tente novamente mais tarde!'));
+    return deposit();
+  }
+
+  accountData.balance = parseFloat(amount) + parseFloat(accountData.balance);
+
+  fs.writeFileSync(
+    `accounts/${accountName}.json`,
+    JSON.stringify(accountData),
+    function (err) {
+      console.log(err);
+    }
+  )
+
+  console.log(chalk.green(`Foi depositado o valor de R$${amount} na sua conta!`));
+}
+
+function getAccount(accountName) {
+  const accountJson = fs.readFileSync(`accounts/${accountName}.json`, {
+    encoding: 'utf-8',
+    flag: 'r',
+  });
+
+  return JSON.parse(accountJson);
+}
+
