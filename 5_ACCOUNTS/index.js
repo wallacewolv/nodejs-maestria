@@ -18,8 +18,6 @@ function operation() {
         'Consultar saldo',
         'Depositar',
         'Sacar',
-        'Tranferir',
-        'Empréstimo',
         'Sair',
       ],
     },
@@ -32,10 +30,8 @@ function operation() {
       } else if (action === 'Consultar saldo') {
         getAccountBalance();
       } else if (action === 'Depositar') {
-        // Implementar cheque especial
         deposit();
       } else if (action === 'Sacar') {
-        // Implementar cheque especial
         withdraw();
       } else if (action === 'Sair') {
         exit();
