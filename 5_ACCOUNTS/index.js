@@ -32,9 +32,9 @@ function operation() {
       } else if (action === 'Depositar') {
         deposit();
       } else if (action === 'Sacar') {
+        withdraw();
       } else if (action === 'Sair') {
-        console.log(chalk.bgBlue.black('Obrigado por usar o Accounts!'));
-        process.exit();
+        exit();
       }
     })
     .catch((err) => console.log(err))
@@ -95,8 +95,8 @@ function deposit() {
       message: 'Qual o nome da sua conta?',
     }
   ])
-    .then((answer) => {
-      const accountName = answer['accountName'];
+    .then((answerAccountName) => {
+      const accountName = answerAccountName['accountName'];
 
       // verify if account exists
       if (!checkAccount(accountName)) {
@@ -109,8 +109,8 @@ function deposit() {
           message: 'Quanto você deseja depositar',
         }
       ])
-        .then((answer) => {
-          const amount = answer['amount'];
+        .then((answerAmount) => {
+          const amount = answerAmount['amount'];
 
           // add an amount
           addAmount(accountName, amount);
@@ -183,5 +183,41 @@ function getAccountBalance() {
       operation();
     })
     .catch((err) => console.log(err));
+}
+
+function withdraw() {
+  inquirer.prompt([
+    {
+      name: 'accountName',
+      message: 'Qual o nome da sua conta?',
+    }
+  ])
+    .then((answerAccountName) => {
+      const accountName = answerAccountName['accountName'];
+
+      if (!checkAccount(accountName)) {
+        return withdraw();
+      }
+
+      inquirer.prompt([
+        {
+          name: 'amount',
+          message: 'Quanto você deseja sacar?',
+        }
+      ])
+        .then((answerAmount) => {
+          const amount = answerAmount['amount'];
+
+          console.log(amount);
+          operation();
+        })
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log(err));
+}
+
+function exit() {
+  console.log(chalk.bgBlue.black('Obrigado por usar o Accounts!'));
+  process.exit();
 }
 
