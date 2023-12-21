@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="text">Oops!</h1>
+    <div class="content">
+      <span>404 Error - Page Not Found</span>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quod nobis tempore unde odit aspernatur. Beatae
+        ratione minima voluptate, cum voluptates magni suscipit soluta rerum fugiat magnam.
+      </p>
+      <button class="btn-goToHome">Go to Homepage</button>
+    </div>
+  </div>
+
+  <script>
+    const btnGoToHome = document.querySelector(".btn-goToHome");
+
+    function onFooClick() {
+      window.location.href = 'http://localhost:3000/';
+    }
+
+    btnGoToHome.onclick = onFooClick;
+  </script>
+</body>
+
+</html>

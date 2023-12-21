@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="text">Home</h1>
+    <div class="content">
+      <span>Bem vindo a Home</span>
+      <p>Aplicação para teste de rotas do Express</p>
+      <button class="btn-goToRegister">Ir para cadastro</button>
+    </div>
+  </div>
+
+  <script>
+    const btnGoToHome = document.querySelector(".btn-goToRegister");
+
+    function onFooClick() {
+      window.location.href = 'http://localhost:3000/users/add';
+    }
+
+    btnGoToHome.onclick = onFooClick;
+  </script>
+</body>
+
+</html>
