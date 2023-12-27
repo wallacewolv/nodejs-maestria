@@ -76,6 +76,7 @@ app.get('/', async (req, res) => {
 
 conn
   .sync()
+  // .sync({ force: true }) // Força o DROP DATA TABLE para reiniciar as tabelas
   .then(() => {
     console.log('Conectamos com sucesso com o Sequelize!');
 
