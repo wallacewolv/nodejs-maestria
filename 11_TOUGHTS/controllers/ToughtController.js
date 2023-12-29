@@ -60,9 +60,26 @@ module.exports = class ToughtController {
 
       req.session.save(() => {
         res.redirect('/toughts/dashboard');
-      })
+      });
     } catch (error) {
       console.log(`Não foi possível criar o pensamento: ${error}`);
+    }
+  }
+
+  static async removeTought(req, res) {
+    const id = req.body.id;
+    const UserId = req.session.userid;
+
+    try {
+      await Tought.destroy({ where: { id: id, UserId: UserId } });
+
+      req.flash('message', 'Pensamento excluído com sucesso!');
+
+      req.session.save(() => {
+        res.redirect('/toughts/dashboard');
+      })
+    } catch (error) {
+      console.log(`Não foi possível excluir o pensamento: ${error}`);
     }
   }
 }
