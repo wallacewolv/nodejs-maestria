@@ -23,7 +23,9 @@ module.exports = class ToughtController {
 
     const toughts = user.Toughts.map((result) => result.dataValues);
 
-    res.render('toughts/dashboard', { toughts });
+    const emptyToughts = toughts.length === 0;
+
+    res.render('toughts/dashboard', { toughts, emptyToughts });
   }
 
   static async showToughts(req, res) {
@@ -77,7 +79,7 @@ module.exports = class ToughtController {
 
       req.session.save(() => {
         res.redirect('/toughts/dashboard');
-      })
+      });
     } catch (error) {
       console.log(`Não foi possível excluir o pensamento: ${error}`);
     }
