@@ -75,7 +75,7 @@ module.exports = class ToughtController {
     try {
       await Tought.destroy({ where: { id: id, UserId: UserId } });
 
-      req.flash('message', 'Pensamento excluído com sucesso!');
+      req.flash('message', 'Pensamento removido com sucesso!');
 
       req.session.save(() => {
         res.redirect('/toughts/dashboard');
@@ -91,5 +91,25 @@ module.exports = class ToughtController {
     const tought = await Tought.findOne({ raw: true, where: { id: id } });
 
     res.render('toughts/edit', { tought });
+  }
+
+  static async updateToughtSave(req, res) {
+    const id = req.body.id;
+
+    const tought = {
+      title: req.body.title,
+    };
+
+    try {
+      await Tought.update(tought, { where: { id: id } });
+
+      req.flash('message', 'Pensamento alterado com sucesso!');
+
+      req.session.save(() => {
+        res.redirect('/toughts/dashboard');
+      });
+    } catch (error) {
+      console.log(`Não foi possível alterar o pensamento: ${error}`);
+    }
   }
 }
