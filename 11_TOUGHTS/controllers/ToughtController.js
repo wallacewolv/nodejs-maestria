@@ -3,7 +3,27 @@ const User = require('../models/User');
 
 module.exports = class ToughtController {
   static async dashboard(req, res) {
-    res.render('toughts/dashboard');
+    const userId = req.session.userid;
+
+    const user = await User.findOne({
+      where: {
+        id: userId,
+      },
+      include: Tought,
+      plain: true,
+    });
+
+    // check if user exists
+    if (!user) {
+      req.flash('message', 'Usuário inexistente, faça login novamente!');
+
+      res.redirect('/auth/login');
+      return;
+    }
+
+    const toughts = user.Toughts.map((result) => result.dataValues);
+
+    res.render('toughts/dashboard', { toughts });
   }
 
   static async showToughts(req, res) {
@@ -18,9 +38,9 @@ module.exports = class ToughtController {
     // validation to know if the session user exists in the database
     const UserId = req.session.userid;
 
-    const validateUserId = await User.findOne({ where: { id: UserId } });
+    const user = await User.findOne({ where: { id: UserId } });
 
-    if (!validateUserId) {
+    if (!user) {
       req.flash('message', 'Usuário inexistente, faça login novamente!');
 
       res.redirect('/auth/login');
