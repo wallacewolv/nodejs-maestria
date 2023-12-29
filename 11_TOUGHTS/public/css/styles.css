@@ -117,6 +117,28 @@ form input[type="submit"]:hover,
   border: 1px solid #f6982d;
 }
 
+/* CREATE / EDIT FORM */
+.tought-form-container a {
+  color: #f6982d;
+  transition: 0.5s;
+}
+
+.tought-form-container a:hover {
+  color: #fff;
+}
+
+.tought-form-container h1 {
+  margin: 1em 0;
+  color: #fff;
+  border-left: 4px solid #f6982d;
+  padding: 0.3em;
+}
+
+.tought-form-container form {
+  max-width: 30%;
+  margin-top: 1.5em;
+}
+
 /* FOOTER */
 footer {
   height: 150px;
@@ -129,4 +151,10 @@ footer {
 footer span {
   font-weight: bold;
   color: #f6982d;
+}
+
+@media (max-width: 800px) {
+  .tought-form-container form {
+    max-width: 60%;
+  }
 }
