@@ -56,4 +56,9 @@ module.exports = class AuthController {
       console.log(`Não foi possível cadastrar o usuário: ${error}`);
     }
   }
+
+  static async logout(req, res) {
+    req.session.destroy();
+    res.redirect('/login');
+  }
 }
