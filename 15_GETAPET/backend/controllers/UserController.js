@@ -117,4 +117,14 @@ module.exports = class UserController {
 
     await createUserToken(user, req, res);
   };
+
+  static async checkUser(req, res) {
+    const currentUser = req.headers.authorization ?? null;
+
+    if (currentUser) {
+      
+    }
+
+    res.status(200).send(currentUser);
+  };
 }
