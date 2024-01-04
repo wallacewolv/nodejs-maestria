@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/User');
 
+const createUserToken = require('../helpers/create-user-token');
+
 module.exports = class UserController {
   static async register(req, res) {
     const { name, email, phone, password, confirmpassword } = req.body;
@@ -54,8 +56,6 @@ module.exports = class UserController {
       return;
     }
 
-    console.log({ name, email, phone, password, confirmpassword });
-
     // create a password
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
@@ -71,9 +71,7 @@ module.exports = class UserController {
 
     try {
       const newUser = await user.save();
-      console.log(newUser);
-      res.status(200).json({ message: 'Usuário criado', newUser });
-      return;
+      await createUserToken(newUser, req, res);
     } catch (error) {
       res.status(500).json({ message: error });
     }
