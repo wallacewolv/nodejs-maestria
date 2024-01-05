@@ -6,6 +6,7 @@ const port = 5000;
 
 // Imports routes
 const UserRoutes = require('./routes/UserRoutes');
+const PetRoutes = require('./routes/PetRoutes');
 
 // Config JSON response
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use(express.static('public'));
 
 // Routes
 app.use('/users', UserRoutes);
+app.use('/pets', PetRoutes);
 
 app.listen(port, () => {
   console.log(`API funcionando na porta ${port}!`);
