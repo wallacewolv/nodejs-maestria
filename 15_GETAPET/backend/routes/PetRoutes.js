@@ -13,5 +13,6 @@ router.post(
   PetController.create,
 );
 router.get('/', PetController.getAll);
+router.get('/mypets', checkToken, PetController.getAllUserPets);
 
 module.exports = router;
