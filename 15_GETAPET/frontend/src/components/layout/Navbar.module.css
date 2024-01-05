@@ -29,7 +29,7 @@
   color: #16479d;
   font-weight: bold;
   cursor: pointer;
-  transition: .5s;
+  transition: 0.5s;
   padding: .5em .8em;
   border-radius: 5px;
 }
