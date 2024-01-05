@@ -126,7 +126,7 @@ module.exports = class UserController {
 
     if (req.headers.authorization) {
       const token = getToken(req);
-      const decoded = jwt.verify(token, "nossosecret");
+      const decoded = jwt.verify(token, 'nossosecret');
 
       currentUser = await User.findById(decoded.id);
 
@@ -151,5 +151,12 @@ module.exports = class UserController {
     }
 
     res.status(200).send({ user });
+  };
+
+  static async editUser(req, res) {
+    res.status(200).json({
+      message: 'Deu certo o update!',
+    });
+    return;
   };
 }
