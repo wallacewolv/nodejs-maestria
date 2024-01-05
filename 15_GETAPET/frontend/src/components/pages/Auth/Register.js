@@ -1,18 +1,43 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '../../form/Form.module.css';
 import Input from '../../form/Input';
 
 function Register() {
+  const [user, setUser] = useState({});
 
-  function handleChange() {
+  function handleChange(event) {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    // send user to db
+    console.log(user);
+  }
+
+  const handlePhone = (event) => {
+    let input = event.target;
+    input.value = phoneMask(input.value);
+  }
+
+  const phoneMask = (value) => {
+    if (!value) {
+      return "";
+    }
+
+    value = value.replace(/\D/g, '');
+    value = value.replace(/(\d{2})(\d)/, "($1) $2");
+    value = value.replace(/(\d)(\d{4})$/, "$1-$2");
+    
+    return value;
   }
 
   return (
     <section className={styles.form_container}>
       <h1>Registrar</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Input
           text="Nome"
           type="text"
@@ -26,6 +51,7 @@ function Register() {
           name="phone"
           placeholder="Digite o seu telefone"
           handleOnChange={handleChange}
+          onKeyUp={handlePhone}
         />
         <Input
           text="E-mail"

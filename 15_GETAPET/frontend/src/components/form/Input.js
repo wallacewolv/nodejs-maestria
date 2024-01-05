@@ -8,6 +8,7 @@ function Input({
   handleOnChange,
   value,
   multiple,
+  onKeyUp
 }) {
   return (
     <div className={styles.form_control}>
@@ -20,6 +21,7 @@ function Input({
         onChange={handleOnChange}
         value={value}
         {...(multiple ? { multiple } : '')}
+        onKeyUp={onKeyUp}
       />
     </div>
   );
