@@ -7,28 +7,36 @@ const getUserByToken = require('../helpers/get-user-by-token');
 module.exports = class PetController {
   static async create(req, res) {
     const { name, age, weight, color } = req.body;
+
+    const images = req.files;
+
     const available = true;
 
     // images upload
 
     // validation
     if (!name) {
-      res.status(422).json({ message: 'O nome é obrigatório' });
+      res.status(422).json({ message: 'O nome é obrigatório!' });
       return;
     }
 
     if (!age) {
-      res.status(422).json({ message: 'A idade é obrigatório' });
+      res.status(422).json({ message: 'A idade é obrigatório!' });
       return;
     }
 
     if (!weight) {
-      res.status(422).json({ message: 'O peso é obrigatório' });
+      res.status(422).json({ message: 'O peso é obrigatório!' });
       return;
     }
 
     if (!color) {
-      res.status(422).json({ message: 'A cor é obrigatório' });
+      res.status(422).json({ message: 'A cor é obrigatório!' });
+      return;
+    }
+
+    if (images.length === 0) {
+      res.status(422).json({ message: 'A imagem ou imagens são obrigatórias!' });
       return;
     }
 
@@ -50,6 +58,10 @@ module.exports = class PetController {
         image: user.image,
         phone: user.phone,
       },
+    });
+
+    images.map((image) => {
+      pet.images.push(image.filename);
     });
 
     try {
