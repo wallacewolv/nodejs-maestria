@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from '../../form/Form.module.css';
 import Input from '../../form/Input';
 
+/* */
+import { Context } from '../../../context/UserContext';
+
 function Register() {
   const [user, setUser] = useState({});
+  const { register } = useContext(Context);
 
   function handleChange(event) {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -14,7 +18,7 @@ function Register() {
   function handleSubmit(event) {
     event.preventDefault();
     // send user to db
-    console.log(user);
+    register(user);
   }
 
   const handlePhone = (event) => {
@@ -30,7 +34,7 @@ function Register() {
     value = value.replace(/\D/g, '');
     value = value.replace(/(\d{2})(\d)/, "($1) $2");
     value = value.replace(/(\d)(\d{4})$/, "$1-$2");
-    
+
     return value;
   }
 
