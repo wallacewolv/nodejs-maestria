@@ -10,6 +10,7 @@ import Message from './components/layout/Message';
 /* pages */
 import Home from './components/pages/Home';
 import Login from './components/pages/Auth/Login';
+import Profile from './components/pages/User/Profile';
 import Register from './components/pages/Auth/Register';
 
 /* context */
@@ -28,6 +29,9 @@ function App() {
             </Route>
             <Route path="/register">
               <Register />
+            </Route>
+            <Route path="/user/profile">
+              <Profile />
             </Route>
             <Route path="/">
               <Home />
