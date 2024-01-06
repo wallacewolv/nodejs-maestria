@@ -7,9 +7,12 @@ import formStyles from '../../form/Form.module.css';
 
 import Input from '../../form/Input';
 
+import useFlashMessage from '../../../hooks/useFlashMessage';
+
 function Profile() {
   const [user, setUser] = useState({});
   const [token] = useState(localStorage.getItem('token'));
+  const { setFlashMessage } = useFlashMessage();
 
   useEffect(() => {
     api.get('/users/checkuser', {
@@ -17,13 +20,52 @@ function Profile() {
         Authorization: `Bearer ${JSON.parse(token)}`,
       },
     }).then((response) => {
+      const data = response.data;
+      data.phone = phoneMask(data.phone);
       setUser(response.data);
     })
   }, [token]);
 
-  function onFileChange(event) { }
+  function onFileChange(event) {
+    setUser({ ...user, [event.target.name]: event.target.files[0] });
+  }
 
-  function handleChange(event) { }
+  function handleChange(event) {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    let msgType = 'success'
+
+    const formData = new FormData()
+
+    const userFormData = await Object.keys(user).forEach((key) =>
+      formData.append(key, user[key]),
+    )
+
+    formData.append('user', userFormData)
+
+    const data = await api
+      .patch(`/users/edit/${user._id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${JSON.parse(token)}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((response) => {
+        console.log(response.data)
+        return response.data
+      })
+      .catch((err) => {
+        console.log(err)
+        msgType = 'error'
+        return err.response.data
+      })
+
+    setFlashMessage(data.message, msgType)
+  }
 
   const handlePhone = (event) => {
     let input = event.target;
@@ -48,7 +90,7 @@ function Profile() {
         <h1>Perfil</h1>
         <p>Preview Imagem</p>
       </div>
-      <form className={formStyles.form_container}>
+      <form onSubmit={handleSubmit} className={formStyles.form_container}>
         <Input
           text="Imagem"
           type="file"
