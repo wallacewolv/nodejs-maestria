@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+import api from '../../../utils/api';
+
 import styles from './Profile.module.css';
 import formStyles from '../../form/Form.module.css';
 
@@ -7,6 +9,17 @@ import Input from '../../form/Input';
 
 function Profile() {
   const [user, setUser] = useState({});
+  const [token] = useState(localStorage.getItem('token'));
+
+  useEffect(() => {
+    api.get('/users/checkuser', {
+      headers: {
+        Authorization: `Bearer ${JSON.parse(token)}`,
+      },
+    }).then((response) => {
+      setUser(response.data);
+    })
+  }, [token]);
 
   function onFileChange(event) { }
 
@@ -73,7 +86,6 @@ function Profile() {
           name="password"
           placeholder="Digite a sua senha"
           handleOnChange={handleChange}
-          value={user.password || ''}
         />
         <Input
           text="Confirmação de senha"
