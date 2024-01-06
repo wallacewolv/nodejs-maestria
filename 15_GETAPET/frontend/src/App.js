@@ -5,6 +5,7 @@ import React from 'react'
 import Footer from './components/layout/Footer';
 import Navbar from './components/layout/Navbar';
 import Container from './components/layout/Container';
+import Message from './components/layout/Message';
 
 /* pages */
 import Home from './components/pages/Home';
@@ -19,6 +20,7 @@ function App() {
     <Router>
       <UserProvider>
         <Navbar />
+        <Message />
         <Container>
           <Switch>
             <Route path="/login">
