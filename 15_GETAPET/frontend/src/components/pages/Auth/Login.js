@@ -9,12 +9,22 @@ import styles from '../../form/Form.module.css';
 import { Context } from '../../../context/UserContext';
 
 function Login() {
-  function handleChange(event) { }
+  const [user, setUser] = useState({});
+  const { login } = useContext(Context);
+
+  function handleChange(event) {
+    setUser({ ...user, [event.target.name]: event.target.value });
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    login(user);
+  }
 
   return (
     <section className={styles.form_container}>
       <h1>Login</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Input
           text="E-mail"
           type="email"
