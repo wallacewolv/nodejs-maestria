@@ -3,7 +3,7 @@ import { useState, useContext } from 'react';
 import Input from '../../form/Input';
 import { Link } from 'react-router-dom';
 
-import styles from '../../form/Form.module.css';
+import formStyles from '../../form/Form.module.css';
 
 /* context */
 import { Context } from '../../../context/UserContext';
@@ -22,7 +22,7 @@ function Login() {
   }
 
   return (
-    <section className={styles.form_container}>
+    <section className={formStyles.form_container}>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <Input
