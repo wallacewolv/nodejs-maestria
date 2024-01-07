@@ -44,5 +44,5 @@
   height: 100px;
   margin-left: 1em;
   border-radius: 5px;
-  object-fit: cover;
+  /* object-fit: cover; */
 }
