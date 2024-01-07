@@ -18,7 +18,8 @@ function Register() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // send user to db
+    // removing formatting
+    user.phone = user.phone.replace(/[ ()-]/g, '');
     register(user);
   }
 

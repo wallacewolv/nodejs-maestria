@@ -37,18 +37,21 @@ function Profile() {
     setUser({ ...user, [event.target.name]: event.target.value });
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    let msgType = 'success'
+    let msgType = 'success';
 
     const formData = new FormData()
 
+    // removing formatting
+    user.phone = user.phone.replace(/[ ()-]/g, '');
+
     const userFormData = await Object.keys(user).forEach((key) =>
       formData.append(key, user[key]),
-    )
+    );
 
-    formData.append('user', userFormData)
+    formData.append('user', userFormData);
 
     const data = await api
       .patch(`/users/edit/${user._id}`, formData, {
@@ -65,7 +68,7 @@ function Profile() {
         console.log(err)
         msgType = 'error'
         return err.response.data
-      })
+      });
 
     setFlashMessage(data.message, msgType)
   }
