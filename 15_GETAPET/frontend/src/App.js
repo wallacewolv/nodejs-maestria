@@ -10,6 +10,7 @@ import Message from './components/layout/Message';
 /* pages */
 import Home from './components/pages/Home';
 import Login from './components/pages/Auth/Login';
+import MyPets from './components/pages/Pet/MyPets';
 import Profile from './components/pages/User/Profile';
 import Register from './components/pages/Auth/Register';
 
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route path="/user/profile">
               <Profile />
+            </Route>
+            <Route path="/pet/mypets">
+              <MyPets />
             </Route>
             <Route path="/">
               <Home />
