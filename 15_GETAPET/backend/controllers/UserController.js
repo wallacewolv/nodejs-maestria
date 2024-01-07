@@ -188,7 +188,7 @@ module.exports = class UserController {
     // check if email has already taken
     const userExists = await User.findOne({ email: email });
 
-    if (!user.email !== email && userExists) {
+    if (user.email !== email && userExists) {
       res.status(422).json({ message: 'Por favor, utilize outro e-mail' });
       return;
     }
