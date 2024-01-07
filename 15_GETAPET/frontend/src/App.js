@@ -8,6 +8,7 @@ import Container from './components/layout/Container';
 import Message from './components/layout/Message';
 
 /* pages */
+import AddPet from './components/pages/Pet/AddPet';
 import Home from './components/pages/Home';
 import Login from './components/pages/Auth/Login';
 import MyPets from './components/pages/Pet/MyPets';
@@ -36,6 +37,9 @@ function App() {
             </Route>
             <Route path="/pet/mypets">
               <MyPets />
+            </Route>
+            <Route path="/pet/add">
+              <AddPet />
             </Route>
             <Route path="/">
               <Home />
